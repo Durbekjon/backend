@@ -1,0 +1,99 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgres"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       Int    @id @default(autoincrement())
+  username String @unique
+  password String
+
+  @@map("users")
+}
+
+model Information {
+  id          Int     @id @default(autoincrement())
+  phoneNumber String  @map("phone_number")
+  mail        String
+  address     String?
+
+  @@map("informations")
+}
+
+model Contact {
+  id        Int          @id @default(autoincrement())
+  subject   SubjectType? @default(other)
+  firstName String       @map("first_name")
+  lastName  String       @map("last_name")
+  email     String
+  message   String
+  createdAt DateTime     @default(now()) @map("created_at")
+
+  @@map("contact_forms")
+}
+
+model Service {
+  id          Int         @id @default(autoincrement())
+  title       String
+  imageUrl    String      @map("image_url")
+  description String?
+  createdAt   DateTime    @default(now())
+  type        ServiceType
+
+  @@map("services")
+}
+
+model Visit {
+  id     Int        @id @default(autoincrement())
+  count  Int        @default(0)
+  date   DateTime
+  visits DateTime[]
+
+  @@map("visits")
+}
+
+model QuoteRequest {
+  id          Int         @id @default(autoincrement())
+  name        String
+  email       String
+  phoneNumber String?     @map("phone_number") @db.VarChar(20)
+  message     String
+  quoteType   QuoteType   @map("type")
+  requestType RequestType @map("request_for")
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@map("quote_requests")
+}
+
+enum SubjectType {
+  edu
+  travel
+  business
+  other
+}
+
+enum ServiceType {
+  edu
+  travel
+}
+
+enum QuoteType {
+  EDU
+  TRAVEL
+}
+
+enum RequestType {
+  INTERNSHIPS
+  TEACHER_TRAININGS
+  SHORT_TERM_PROGRAMS
+  DEGREE_PROGRAMS
+  TOUR_PACKAGE
+  FULL_VIP_ASSISTANCE
+  MEET_AND_GREET_FAST_TRACK
+  GROUND_TRANSPORTATION
+}
