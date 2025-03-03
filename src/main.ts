@@ -9,7 +9,15 @@ async function bootstrap() {
 
   dotenv.config();
   app.enableShutdownHooks();
-  app.enableCors({ origin: '*' });
+  app.enableCors({
+    origin: (origin, callback) => {
+      if (!origin || origin === process.env.FRONTEND_IP) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+  });
   app.enableVersioning({ type: VersioningType.URI });
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
   app.setGlobalPrefix('api');
