@@ -16,6 +16,7 @@ async function bootstrap() {
   // CORS ni faqat ma'lum IP uchun ruxsat berish
   app.use((req, res, next) => {
     const allowedIp = process.env.FRONTEND_IP;
+    console.log(req.ip);
     if (req.ip !== allowedIp) {
       return res.status(403).json({ message: 'Not allowed by CORS' });
     }
