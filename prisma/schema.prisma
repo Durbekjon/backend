@@ -97,3 +97,16 @@ enum RequestType {
   MEET_AND_GREET_FAST_TRACK
   GROUND_TRANSPORTATION
 }
+
+model EventInfo {
+  id                   Int      @id @default(autoincrement()) @map("event_id")
+  eventName            String   @map("event_name")
+  eventDate            DateTime @map("event_date")
+  eventTime            String   @map("event_time")
+  location             String   @map("event_location")
+  description          String   @map("event_description")
+  studentBenefits      Json     @map("student_benefits")
+  institutionBenefits  Json     @map("institution_benefits")
+  registrationDeadline DateTime @map("registration_deadline")
+  visible              Boolean  @default(true) @map("is_visible")
+}
